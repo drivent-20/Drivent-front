@@ -29,7 +29,7 @@ const PaymentContent = styled.div`
   height: 100%;
 `;
 
-const PaymentMessage = styled.text`
+const PaymentMessage = styled.p`
   max-width: 388px;
   text-align: center;
   font-size: 20px;
