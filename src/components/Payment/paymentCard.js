@@ -130,7 +130,7 @@ export default function CardForm({ tickets }) {
               </FormCVCAndExpiryDate>
             </InputsContainer>
           </InputAndCardContainer>
-          <Button type="submit" disabled={handleInputChange}>
+          <Button type="submit" disabled={postPaymentLoading}>
             Finalizar pagamento
           </Button>
         </PaymentForm>
