@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 
-export default function PaymentForm({ tickets }) {
+export default function PaymentForm({ tickets, getPayment, setPayment }) {
   const { postPayment, postPaymentLoading } = usePostPayment();
 
   const [cardInfo, setCardInfo] = useState({
@@ -39,6 +39,8 @@ export default function PaymentForm({ tickets }) {
     try {
       await postPayment(newData);
       toast('Pagamento feito com sucesso!');
+      const payment = await getPayment(tickets.id);
+      setPayment(payment);
     } catch (err) {
       toast('Não foi possível fazer o pagamento.');
     }
