@@ -2,10 +2,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 
 import useGetTicketTypes from '../../hooks/api/useGetTicketTypes';
+import useGetTickets from '../../hooks/api/useGetTickets';
+import CardForm from './paymentCard';
 
 export default function TicketAndPayment() {
   const { ticketTypes } = useGetTicketTypes();
   const [ticketChosen, setTicketChosen] = useState('none');
+  const { tickets } = useGetTickets();
 
   function formatCurrency(number) {
     const formattedNumber = (number / 100).toLocaleString('pt-BR', {
@@ -18,23 +21,27 @@ export default function TicketAndPayment() {
   return (
     <Payment>
       <PaymentTitle>Ingresso e pagamento</PaymentTitle>
-      <PaymentContent>
-        <PaymentMessage>Primeiro, escolha a sua modalidade de ingresso</PaymentMessage>
-        <TicketTypeContainer>
-          <InPersonTicket ticketChosen={ticketChosen} onClick={() => setTicketChosen('presencial')}>
-            <TicketTitle>Presencial</TicketTitle>
-            <Price>
-              {ticketTypes
-                ? formatCurrency(ticketTypes.find((t) => t.isRemote === false && t.includesHotel === false).price)
-                : 0}
-            </Price>
-          </InPersonTicket>
-          <OnlineTicket ticketChosen={ticketChosen} onClick={() => setTicketChosen('online')}>
-            <TicketTitle>Online</TicketTitle>
-            <Price>{ticketTypes ? formatCurrency(ticketTypes.find((t) => t.isRemote === true).price) : 0}</Price>
-          </OnlineTicket>
-        </TicketTypeContainer>
-      </PaymentContent>
+      {!tickets ? (
+        <PaymentContent>
+          <PaymentMessage>Primeiro, escolha a sua modalidade de ingresso</PaymentMessage>
+          <TicketTypeContainer>
+            <InPersonTicket ticketChosen={ticketChosen} onClick={() => setTicketChosen('presencial')}>
+              <TicketTitle>Presencial</TicketTitle>
+              <Price>
+                {ticketTypes
+                  ? formatCurrency(ticketTypes.find((t) => t.isRemote === false && t.includesHotel === false).price)
+                  : 0}
+              </Price>
+            </InPersonTicket>
+            <OnlineTicket ticketChosen={ticketChosen} onClick={() => setTicketChosen('online')}>
+              <TicketTitle>Online</TicketTitle>
+              <Price>{ticketTypes ? formatCurrency(ticketTypes.find((t) => t.isRemote === true).price) : 0}</Price>
+            </OnlineTicket>
+          </TicketTypeContainer>
+        </PaymentContent>
+      ) : (
+        <CardForm tickets={tickets} />
+      )}
     </Payment>
   );
 }
