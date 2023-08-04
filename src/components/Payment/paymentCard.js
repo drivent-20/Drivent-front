@@ -3,6 +3,7 @@ import 'react-credit-cards/es/styles-compiled.css';
 import PaymentForm from './paymentForm';
 import useGetPayment from '../../hooks/api/useGetPayment';
 import { useEffect, useState } from 'react';
+import ConfirmPayment from './confirmedPayment';
 
 export default function CardForm({ tickets }) {
   const { getPayment } = useGetPayment();
@@ -36,7 +37,7 @@ export default function CardForm({ tickets }) {
         </span>
       </TicketType>
       <PaymentMessage>Pagamento</PaymentMessage>
-      {payment ? 'Em breve' : <PaymentForm tickets={tickets} />}
+      {payment ? <ConfirmPayment /> : <PaymentForm tickets={tickets} getPayment={getPayment} setPayment={setPayment}/>}
     </PaymentContent>
   );
 }
