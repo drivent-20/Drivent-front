@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
-export default function HotelWithoutPayment() {
+export default function HotelWithoutPayment({ errorStatus }) {
   return (
     <Hotel>
       <HotelTitle>Escolha de hotel e quarto</HotelTitle>
       <HotelContent>
-        <HotelMessage>Você precisa ter confirmado pagamento antes
-            de fazer a escolha de hospedagem</HotelMessage>
+        {errorStatus === 409 ?
+          <HotelMessage2>
+            Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades
+          </HotelMessage2>:
+          <HotelMessage>
+            Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem
+          </HotelMessage>          
+        }
       </HotelContent>
     </Hotel>
   );
@@ -31,10 +37,17 @@ const HotelContent = styled.div`
 `;
 
 const HotelMessage = styled.text`
-  max-width: 388px;
+  max-width: 411px;
   text-align: center;
   font-size: 20px;
-  line-height: 23.44px;
+  font-weight: 400;
+  color: #8E8E8E;
+`;
+
+const HotelMessage2 = styled.text`
+  max-width: 465px;
+  text-align: center;
+  font-size: 20px;
   font-weight: 400;
   color: #8E8E8E;
 `;
