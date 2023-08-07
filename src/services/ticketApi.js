@@ -19,3 +19,14 @@ export async function getTicket(token) {
 
   return response.data;
 }
+export async function reserveTicket(ticketTypeId, token) {
+  const obj = { ticketTypeId };
+  const response = await api.post('/tickets', obj, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
+
