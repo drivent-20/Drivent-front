@@ -37,7 +37,7 @@ export default function Hotel() {
 }
 
 const Container = styled.div`
-  max-height: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;

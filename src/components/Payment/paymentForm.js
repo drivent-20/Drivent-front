@@ -39,10 +39,11 @@ export default function PaymentForm({ tickets, getPayment, setPayment }) {
     try {
       await postPayment(newData);
       toast('Pagamento feito com sucesso!');
-      const payment = await getPayment(tickets.id);
-      setPayment(payment);
+      // const payment = await getPayment(tickets.id);
+      setPayment(true);
     } catch (err) {
       toast('Não foi possível fazer o pagamento.');
+      console.log('erro', err);
     }
   };
 

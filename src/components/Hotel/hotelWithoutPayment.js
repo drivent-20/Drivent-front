@@ -26,12 +26,13 @@ const Hotel = styled.div`
 const HotelTitle = styled.h1`
   font-size: 34px;
   font-weight: 400;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 `;
 
 const HotelContent = styled.div`
   display: flex;
-  align-items: center;
+  margin-top: 250px;
+  /* align-items: center; */
   justify-content: center;
   height: 100%;
 `;
