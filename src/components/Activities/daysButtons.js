@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
-export default function DaysButtons() {
+export default function DaysButtons({ day }) {
   return (
     <ActivityContent>
-      <Button>Sexta, 22/10</Button>
-      <Button>Sabado, 23/10</Button>
-      <Button>Domingo, 24/10</Button>
+      <Button>{day}</Button>
     </ActivityContent>
   );
 }
