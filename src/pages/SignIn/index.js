@@ -1,17 +1,13 @@
 import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
 import AuthLayout from '../../layouts/Auth';
-
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
 import Link from '../../components/Link';
-import { Row, Title, Label } from '../../components/Auth';
-
+import { Row, Title, Label, EventImage } from '../../components/Auth';
 import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
-
 import useSignIn from '../../hooks/api/useSignIn';
 
 export default function SignIn() {
@@ -24,7 +20,7 @@ export default function SignIn() {
   const { setUserData } = useContext(UserContext);
 
   const navigate = useNavigate();
-  
+
   async function submit(event) {
     event.preventDefault();
 
@@ -36,12 +32,12 @@ export default function SignIn() {
     } catch (err) {
       toast('Não foi possível fazer o login!');
     }
-  } 
+  }
 
   return (
     <AuthLayout background={eventInfo.backgroundImageUrl}>
       <Row>
-        <img src={eventInfo.logoImageUrl} alt="Event Logo" width="60px" />
+        <EventImage src={eventInfo.logoImageUrl} />
         <Title>{eventInfo.title}</Title>
       </Row>
       <Row>
