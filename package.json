@@ -133,6 +133,7 @@
     ]
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2"
