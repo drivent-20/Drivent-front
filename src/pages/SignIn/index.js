@@ -30,11 +30,9 @@ export default function SignIn() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-    console.log(code);
     if(code) {
       axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/code`, { code }
       ).then(res => {
-        console.log(res.data);
         setUserData(res.data);
         toast('Login realizado com sucesso!');
         navigate('/dashboard');

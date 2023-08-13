@@ -3,17 +3,13 @@ import styled from 'styled-components';
 
 export default function GitHubButton({ variant='contained', children, ...props }) {
   function gitHub() {
-    const GITHUB_URL = 'https://github.com/login/oauth/authorize';
-    const CLIENT_ID = '1b6177e2973d4f7bf679';
-
     const params = new URLSearchParams({
       response_type: 'code',
       scope: 'user',
-      client_id: CLIENT_ID,
-      redirect_uri: 'http://localhost:3000/sign-in'
+      client_id: `${process.env.REACT_APP_CLIENT_ID}`,
+      redirect_uri: `${process.env.REACT_APP_REDIRECT_URL}`,
     });
-
-    const authURL = `${GITHUB_URL}?${params.toString()}`;
+    const authURL = `${process.env.REACT_APP_GITHUB_URL}?${params.toString()}`;
     window.location.href = authURL;
   }
 
