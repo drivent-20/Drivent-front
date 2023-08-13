@@ -1,59 +1,70 @@
 import styled from 'styled-components';
 
 export default function HotelsChoice({ hotels, setSelectedHotelIdx }) {
-  const roomTypesMap = {
-    'S': 'Single',
-    'D': 'Double',
-    'T': 'Triple',
-    'SD': 'Simple e Double',
-    'ST': 'Simple e Triple',
-    'DT': 'Double e Triple',
-    'SDT': 'Simple, Double e Triple'
-  };
-
   return (
     <Hotel>
       <HotelTitle>Escolha de hotel e quarto</HotelTitle>
       <HotelMessage>Primeiro, escolha seu hotel</HotelMessage>
       <HotelChoices>
         {hotels.map((hotel, idx) =>
-          <Choice key={hotel.id} onClick={() => setSelectedHotelIdx(idx)}>
-            <input name='hotelChoice' type='radio' />
-            <img src={hotel.image} alt={hotel.name} />
-            <ChoiceTitle>{hotel.name}</ChoiceTitle>
-            <ChoiceOption>
-              <h2>Tipos de acomodação:</h2>
-              <h3>{roomTypesMap[hotel.roomsType] || 'Não informado'}</h3>
-            </ChoiceOption>
-            <ChoiceOption>
-              <h2>Vagas disponíveis:</h2>
-              <h3>{hotel.availableRooms}</h3>
-            </ChoiceOption>
-          </Choice>
+          <HotelChoice
+            key={hotel.id}
+            idx={idx}
+            hotel={hotel}
+            setSelectedHotelIdx={setSelectedHotelIdx}
+          />
         )}
       </HotelChoices>
     </Hotel>
   );
 }
 
-const Hotel = styled.div`
+export function HotelChoice({ idx, hotel, setSelectedHotelIdx, checked }) {
+  return (
+    <Choice onClick={() => setSelectedHotelIdx && setSelectedHotelIdx(idx)}>
+      <input checked={checked} name='hotelChoice' type='radio' />
+      <img src={hotel.image} alt={hotel.name} />
+      <ChoiceTitle>{hotel.name}</ChoiceTitle>
+      <ChoiceOption>
+        <h2>Tipos de acomodação:</h2>
+        <h3>{roomTypesMap[hotel.roomsType] || 'Não informado'}</h3>
+      </ChoiceOption>
+      <ChoiceOption>
+        <h2>Vagas disponíveis:</h2>
+        <h3>{hotel.availableRooms}</h3>
+      </ChoiceOption>
+    </Choice>
+  );
+}
+
+export const roomTypesMap = {
+  'S': 'Single',
+  'D': 'Double',
+  'T': 'Triple',
+  'SD': 'Simple e Double',
+  'ST': 'Simple e Triple',
+  'DT': 'Double e Triple',
+  'SDT': 'Simple, Double e Triple'
+};
+
+export const Hotel = styled.div`
   max-height: 100%;
   font-family: 'Roboto', sans-serif;
 `;
 
-const HotelTitle = styled.h1`
+export const HotelTitle = styled.h1`
   font-size: 34px;
   margin-bottom: 16px;
 `;
 
-const HotelMessage = styled.p`
+export const HotelMessage = styled.p`
   font-size: 20px;
   line-height: 23px;
   color: #8E8E8E;
   margin-bottom: 24px;
 `;
 
-const HotelChoices = styled.div`
+export const HotelChoices = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
@@ -68,7 +79,7 @@ const HotelChoices = styled.div`
   }
 `;
 
-const Choice = styled.label`
+export const Choice = styled.label`
   input {
     height: 0;
     width: 0;
@@ -76,6 +87,7 @@ const Choice = styled.label`
     position: absolute;
   }
 
+  position: relative;
   width: 196px;
   height: fit-content;
   background-color: #EBEBEB;
@@ -93,12 +105,16 @@ const Choice = styled.label`
     object-fit: cover;
   }
 
-  :hover {
+  &:hover {
     background-color: #d7d8d9;
+  }
+
+  &:has(input:checked) {
+    background-color: #FFEED2;
   }
 `;
 
-const ChoiceTitle = styled.h1`
+export const ChoiceTitle = styled.h1`
   color: #343434;
   font-size: 20px;
   width: 100%;
@@ -107,7 +123,7 @@ const ChoiceTitle = styled.h1`
   text-overflow: ellipsis;
 `;
 
-const ChoiceOption = styled.div`
+export const ChoiceOption = styled.div`
   gap: 2px;
   display: flex;
   flex-direction: column;
