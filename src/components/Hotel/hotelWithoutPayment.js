@@ -8,10 +8,10 @@ export default function HotelWithoutPayment({ errorStatus }) {
         {errorStatus === 409 ?
           <HotelMessage2>
             Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades
-          </HotelMessage2>:
+          </HotelMessage2> :
           <HotelMessage>
             Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem
-          </HotelMessage>          
+          </HotelMessage>
         }
       </HotelContent>
     </Hotel>
@@ -37,7 +37,7 @@ const HotelContent = styled.div`
   height: 100%;
 `;
 
-const HotelMessage = styled.text`
+const HotelMessage = styled.p`
   max-width: 411px;
   text-align: center;
   font-size: 20px;
@@ -45,7 +45,7 @@ const HotelMessage = styled.text`
   color: #8E8E8E;
 `;
 
-const HotelMessage2 = styled.text`
+const HotelMessage2 = styled.p`
   max-width: 465px;
   text-align: center;
   font-size: 20px;

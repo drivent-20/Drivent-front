@@ -1,39 +1,31 @@
 import HotelWithoutPayment from '../../../components/Hotel/hotelWithoutPayment';
 import useHotel from '../../../hooks/api/useHotel';
-import useToken from '../../../hooks/useToken';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import HotelsChoice from '../../../components/Hotel/hotelsChoice';
 import RoomsChoice from '../../../components/Hotel/hotelRooms';
 import styled from 'styled-components';
+import { useState } from 'react';
+
 export default function Hotel() {
-  const token = useToken();
-  const [hotel, setHotel] = useState(null);
-  const [selectedHotel, setSelectedHotel] = useState(null);
-  const [errorStatus, setErrorStatus] = useState(null);
+  const { hotel: hotels, hotelError } = useHotel();
+  const [selectedHotelIdx, setSelectedHotelIdx] = useState(null);
 
-  useEffect(() => {
-    console.log('Selected:', selectedHotel);
-    axios.get(`${process.env.REACT_APP_API_BASE_URL}/hotels`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(res => {
-      setHotel(res.data);
-    }).catch(err => {
-      console.log('erro', err.response.status);
-      setErrorStatus(err.response.status);
-    });
-  }, []);
-
+  const selectedHotel = selectedHotelIdx !== null ? hotels?.at(selectedHotelIdx) : null;
+  
   return (
     <Container>
-      {hotel ? <div><HotelsChoice hotel={hotel} setSelectedHotel={setSelectedHotel}/></div> :
-        <><HotelWithoutPayment errorStatus={errorStatus}/></>}
-      {console.log('selected', selectedHotel)}
-      {selectedHotel ? <div><RoomsChoice  hotel={hotel} selectedHotel={selectedHotel} token={token}/></div> : null}
+      {hotels ?
+        <HotelsChoice
+          hotels={hotels}
+          setSelectedHotelIdx={setSelectedHotelIdx}
+        />
+        :
+        <HotelWithoutPayment
+          errorStatus={hotelError}
+        />
+      }
+      {selectedHotel && <RoomsChoice selectedHotel={selectedHotel} />}
     </Container>
-  );  
+  );
 }
 
 const Container = styled.div`
