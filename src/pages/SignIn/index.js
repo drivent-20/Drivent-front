@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,6 +6,7 @@ import AuthLayout from '../../layouts/Auth';
 
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
+import GitHubButton from '../../components/Form/GitHubButton';
 import Link from '../../components/Link';
 import { Row, Title, Label } from '../../components/Auth';
 
@@ -13,6 +14,7 @@ import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
 
 import useSignIn from '../../hooks/api/useSignIn';
+import axios from 'axios';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -25,6 +27,23 @@ export default function SignIn() {
 
   const navigate = useNavigate();
   
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    console.log(code);
+    if(code) {
+      axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/code`, { code }
+      ).then(res => {
+        console.log(res.data);
+        setUserData(res.data);
+        toast('Login realizado com sucesso!');
+        navigate('/dashboard');
+      }).catch(err => {
+        console.log('erro', err.response.status);
+      });
+    }
+  }, []);
+
   async function submit(event) {
     event.preventDefault();
 
@@ -51,6 +70,9 @@ export default function SignIn() {
           <Input label="Senha" type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
           <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</Button>
         </form>
+      </Row>
+      <Row>
+        <GitHubButton>Entre com GitHub</GitHubButton>
       </Row>
       <Row>
         <Link to="/enroll">Não possui login? Inscreva-se</Link>
