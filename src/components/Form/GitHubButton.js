@@ -22,6 +22,7 @@ export default function GitHubButton({ variant='contained', children, ...props }
 
 const StyledMuiButton = styled(MuiButton)`
   margin-top: 0px !important;
-  background-color: grey !important;
+  background-color: black !important;
+  color: white !important;
   cursor: pointer !important;
 `;
