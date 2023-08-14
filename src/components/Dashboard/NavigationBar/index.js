@@ -16,7 +16,7 @@ export default function NavigationBar() {
   const location = useLocation();
 
   function isActive(buttonPath) {
-    return location.pathname === buttonPath;
+    return location.pathname.includes(buttonPath);
   }
 
   return (

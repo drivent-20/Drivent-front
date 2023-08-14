@@ -6,7 +6,7 @@ import AuthLayout from '../../layouts/Auth';
 
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
-import { Row, Title, Label } from '../../components/Auth';
+import { Row, Title, Label, EventImage } from '../../components/Auth';
 import Link from '../../components/Link';
 
 import EventInfoContext from '../../contexts/EventInfoContext';
@@ -21,7 +21,7 @@ export default function Enroll() {
   const { loadingSignUp, signUp } = useSignUp();
 
   const navigate = useNavigate();
-  
+
   const { eventInfo } = useContext(EventInfoContext);
 
   async function submit(event) {
@@ -43,7 +43,7 @@ export default function Enroll() {
   return (
     <AuthLayout background={eventInfo.backgroundImageUrl}>
       <Row>
-        <img src={eventInfo.logoImageUrl} alt="Event Logo" width="60px" />
+        <EventImage src={eventInfo.logoImageUrl} />
         <Title>{eventInfo.title}</Title>
       </Row>
       <Row>
