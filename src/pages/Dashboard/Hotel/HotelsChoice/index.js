@@ -1,38 +1,58 @@
 import styled from 'styled-components';
+import RoomsChoice from '../../../../components/Hotel/hotelRooms';
+import { useState } from 'react';
+import useHotel from '../../../../hooks/api/useHotel';
+import HotelWithoutPayment from '../../../../components/Hotel/hotelWithoutPayment';
+import { HotelContainer } from '..';
 
-export default function HotelsChoice({ hotels, setSelectedHotelIdx }) {
+export default function HotelsChoice() {
+  const { hotel: hotels, hotelError } = useHotel();
+  const [selectedHotelIdx, setSelectedHotelIdx] = useState(null);
+  const selectedHotel = selectedHotelIdx !== null ? hotels?.at(selectedHotelIdx) : null;
+
+  if (hotelError) {
+    return <HotelWithoutPayment
+      errorStatus={hotelError}
+    />;
+  }
+
   return (
-    <Hotel>
-      <HotelTitle>Escolha de hotel e quarto</HotelTitle>
-      <HotelMessage>Primeiro, escolha seu hotel</HotelMessage>
-      <HotelChoices>
-        {hotels.map((hotel, idx) =>
-          <HotelChoice
-            key={hotel.id}
-            idx={idx}
-            hotel={hotel}
-            setSelectedHotelIdx={setSelectedHotelIdx}
-          />
-        )}
-      </HotelChoices>
-    </Hotel>
+    <HotelContainer>
+      <Hotel>
+        <HotelTitle>Escolha de hotel e quarto</HotelTitle>
+        <HotelMessage>Primeiro, escolha seu hotel</HotelMessage>
+        <HotelChoices>
+          {hotels?.map((hotel, idx) =>
+            <HotelChoice
+              key={hotel.id}
+              idx={idx}
+              hotel={hotel}
+              setSelectedHotelIdx={setSelectedHotelIdx}
+            >
+              <ChoiceOption>
+                <h2>Tipos de acomodação:</h2>
+                <h3>{roomTypesMap[hotel.roomsType] || 'Não informado'}</h3>
+              </ChoiceOption>
+              <ChoiceOption>
+                <h2>Vagas disponíveis:</h2>
+                <h3>{hotel.availableRooms}</h3>
+              </ChoiceOption>
+            </HotelChoice>
+          )}
+        </HotelChoices>
+        {selectedHotel && <RoomsChoice hotel={selectedHotel} />}
+      </Hotel>
+    </HotelContainer>
   );
 }
 
-export function HotelChoice({ idx, hotel, setSelectedHotelIdx, checked }) {
+export function HotelChoice({ idx, hotel, setSelectedHotelIdx, readOnly = false, checked, children }) {
   return (
     <Choice onClick={() => setSelectedHotelIdx && setSelectedHotelIdx(idx)}>
-      <input checked={checked} name='hotelChoice' type='radio' />
+      <input readOnly={readOnly} checked={checked} name='hotelChoice' type='radio' />
       <img src={hotel.image} alt={hotel.name} />
       <ChoiceTitle>{hotel.name}</ChoiceTitle>
-      <ChoiceOption>
-        <h2>Tipos de acomodação:</h2>
-        <h3>{roomTypesMap[hotel.roomsType] || 'Não informado'}</h3>
-      </ChoiceOption>
-      <ChoiceOption>
-        <h2>Vagas disponíveis:</h2>
-        <h3>{hotel.availableRooms}</h3>
-      </ChoiceOption>
+      {children}
     </Choice>
   );
 }
@@ -71,7 +91,7 @@ export const HotelChoices = styled.div`
   align-content: start;
   flex-wrap: wrap;
   gap: 16px;
-
+ 
   &:has(input:checked){
     label:not(:has(input:checked)){
       opacity: 0.4;

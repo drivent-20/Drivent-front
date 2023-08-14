@@ -20,6 +20,8 @@ import { EventInfoProvider } from './contexts/EventInfoContext';
 import { UserProvider } from './contexts/UserContext';
 
 import useToken from './hooks/useToken';
+import HotelConfirmation from './pages/Dashboard/Hotel/HotelConfirmation';
+import HotelsChoice from './pages/Dashboard/Hotel/HotelsChoice';
 
 export default function App() {
   return (
@@ -44,6 +46,9 @@ export default function App() {
                 <Route path="subscription" element={<FillSubscription />} />
                 <Route path="payment" element={<Payment />} />
                 <Route path="hotel" element={<Hotel />} />
+                <Route path="hotel/confirmation" element={<HotelConfirmation />} />
+                <Route path="hotel/choice" element={<HotelsChoice />} />
+                <Route path="hotel/choice/edit" element={<HotelsChoice />} />
                 <Route path="activities" element={<Activities />} />
                 <Route path="certificate" element={<Certificate />} />
                 <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />

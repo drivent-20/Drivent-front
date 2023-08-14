@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import usePostBooking from '../../hooks/api/usePostBooking';
+import usePutBooking from '../../hooks/api/usePutBooking';
+import useGetBooking from '../../hooks/api/useGetBooking';
 import { toast } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function RoomsChoice({ hotel }) {
   const {
@@ -8,12 +11,40 @@ export default function RoomsChoice({ hotel }) {
     postBookingLoading
   } = usePostBooking();
 
+  const {
+    putBooking,
+    putBookingLoading
+  } = usePutBooking();
+
+  const {
+    booking,
+    getBookingLoading
+  } = useGetBooking();
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isEdit = pathname.includes('edit');
+
+  const isLoading = postBookingLoading || putBookingLoading || getBookingLoading;
+
   function handleRoomSubmit(e) {
     e.preventDefault();
-    if (postBookingLoading) return;
+    if (isLoading) return;
     const roomId = e.target['room'].value;
-    postBooking({ roomId })
-      .then((_) => toast('Reserva feita com sucesso!'))
+
+    let promise;
+
+    if (isEdit) {
+      promise = putBooking({ roomId }, booking.id);
+    } else {
+      promise = postBooking({ roomId });
+    }
+
+    promise
+      .then(() => {
+        toast('Reserva feita com sucesso!');
+        navigate('/dashboard/hotel/confirmation');
+      })
       .catch(() => toast('Não foi possível fazer sua reserva.'));
   }
 
@@ -33,7 +64,7 @@ export default function RoomsChoice({ hotel }) {
           />
         ))}
       </Room>
-      <HotelButton disabled={postBookingLoading} type='submit'>RESERVAR QUARTO</HotelButton>
+      <HotelButton disabled={isLoading} type='submit'>RESERVAR QUARTO</HotelButton>
     </FormWrapper>
   );
 }
@@ -77,13 +108,15 @@ function RoomVacancies({ roomId, total, free }) {
 const FormWrapper = styled.form`
   :valid {
     button {
-      display: initial;
+      visibility: visible;
+      pointer-events: all;
     }
   }
-`;
+ `;
 
 export const HotelButton = styled.button`
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
   height: 37px;
   border: 0;
   border-radius: 4px;
@@ -105,7 +138,7 @@ export const HotelButton = styled.button`
 const RoomsTitle = styled.h2`
   font-size: 20px;
   color: #8e8e8e;
-  margin: 80px 0 32px 0;
+  margin: 0px 0 32px 0;
 `;
 
 const Room = styled.div`
@@ -169,14 +202,14 @@ const RoomChoicesContainer = styled.label`
 
   &:has(input:checked){
     background-color: #FFEED2;
-
-    .free:last-child { 
+    
+    .free:last-of-type { 
       ion-icon[name="person-outline"]{
         display: none;
       }
 
       ion-icon[name="person"]{
-        display: initial;
+        display: block;
         color: #FF4791;
       }
     }

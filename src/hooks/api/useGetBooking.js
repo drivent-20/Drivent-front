@@ -3,7 +3,7 @@ import useToken from '../useToken';
 
 import * as bookingApi from '../../services/bookingApi';
 
-export default function useGetBooking() {
+export default function useGetBooking(immediate = true) {
   const token = useToken();
 
   const {
@@ -11,7 +11,7 @@ export default function useGetBooking() {
     loading: getBookingLoading,
     error: getBookingError,
     act: getBooking,
-  } = useAsync(() => bookingApi.getBooking(token));
+  } = useAsync(() => bookingApi.getBooking(token), immediate);
 
   return {
     booking,
