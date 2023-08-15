@@ -46,7 +46,7 @@ export default function HotelConfirmation() {
 }
 
 function occupationMessage(bookingLength) {
-  if (bookingLength === 1) {
+  if (bookingLength <= 1) {
     return 'Apenas você';
   }
   return `Você e mais ${bookingLength - 1}`;
