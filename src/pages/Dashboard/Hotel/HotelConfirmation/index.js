@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { HotelButton } from '../../../../components/Hotel/hotelRooms';
 import useHotel from '../../../../hooks/api/useHotel';
 import { ChoiceOption, Hotel, HotelChoice, HotelMessage, HotelTitle, roomTypesMap } from '../HotelsChoice';
@@ -22,7 +22,7 @@ export default function HotelConfirmation() {
 
   const hotel = hotels?.find((hotel) => booking?.Room.hotelId === hotel.id);
   const roomType = Object.values(roomTypesMap).at(booking?.Room.capacity - 1);
-  const bookingLength = booking?.Room.Booking.length;
+  const bookingLength = booking?.Room.Booking?.length ?? 0;
 
   return (
     <HotelContainer>
