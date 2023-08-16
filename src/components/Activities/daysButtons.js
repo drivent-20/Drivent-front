@@ -1,9 +1,14 @@
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
-export default function DaysButtons({ day }) {
+export default function DaysButtons({ day, onButtonClick }) {  
+  const handleClick = () => {
+    const isoDate = dayjs(day, 'dddd, DD/MM').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    onButtonClick(isoDate);
+  };
   return (
     <ActivityContent>
-      <Button>{day}</Button>
+      <Button onClick={handleClick}>{day}</Button>
     </ActivityContent>
   );
 }
